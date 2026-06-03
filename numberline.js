@@ -1748,7 +1748,7 @@ function thankRoutineBegin(snapshot) {
     psychoJS.experiment.addData('thank.started', globalClock.getTime());
     thankMaxDuration = null;
     thankComponents = [];
-    thankComponents.push(instruct_3);
+    thankComponents.push(instruction_3);
     for (const comp of thankComponents) {
       if (comp && 'status' in comp) comp.status = PsychoJS.Status.NOT_STARTED;
     }
