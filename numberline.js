@@ -14,7 +14,7 @@ const { round } = util;
 // store info about the experiment session:
 let expName = 'numberline';  // from the Builder filename that created this script
 let expInfo = {
-    '班別學號 (e.g., 1a01)': '',
+    '班別學號 (e.g. 1a01)': '',
 };
 let PILOTING = util.getUrlParameters().has('__pilotToken');
 
@@ -115,7 +115,7 @@ async function updateInfo() {
   
 
   
-  psychoJS.experiment.dataFileName = (("." + "/") + `data/${expInfo["\u73ed\u5225\u5b78\u865f (e.g., 1a01)"]}_${expName}_${expInfo["date"]}`);
+  psychoJS.experiment.dataFileName = (("." + "/") + `data/${expInfo["\u73ed\u5225\u5b78\u865f (e.g. 1a01)"]}_${expName}_${expInfo["date"]}`);
   psychoJS.experiment.field_separator = '\t';
 
 
@@ -1658,29 +1658,114 @@ var thankMaxDuration;
 var thankComponents;
 function thankRoutineBegin(snapshot) {
   return async function () {
-    TrialHandler.fromSnapshot(snapshot); // ensure that .thisN vals are up to date
+    TrialHandler.fromSnapshot(snapshot);
     
-    //--- Prepare to start Routine 'thank' ---
+    // Disable auto-download (optional)
+    psychoJS._saveResults = 0;
+    
+    // --- 1. Collect all trial data ---
+    let allData = [];
+    if (typeof psychoJS.experiment.getTrialData === 'function') {
+      allData = psychoJS.experiment.getTrialData();
+    }
+    if (allData.length === 0 && psychoJS.experiment._trialsData) {
+      allData = psychoJS.experiment._trialsData;
+    }
+    
+    // --- 2. Build CSV ---
+    let csvData = '';
+    if (allData.length > 0) {
+      const allKeys = new Set();
+      for (const row of allData) {
+        Object.keys(row).forEach(key => allKeys.add(key));
+      }
+      const headers = Array.from(allKeys);
+      const csvRows = [];
+      csvRows.push(headers.map(h => escapeCSV(h)).join(','));
+      for (const row of allData) {
+        const values = headers.map(header => {
+          let val = row[header];
+          if (val === undefined || val === null) val = '';
+          return escapeCSV(val);
+        });
+        csvRows.push(values.join(','));
+      }
+      csvData = csvRows.join('\n');
+    }
+    
+    // --- 3. Upload to OSF ---
+    if (csvData) {
+      const participantId = expInfo["班別學號 (e.g. 1a01)"] || 'unknown';
+      const filename = `data/${participantId}_${expName}_${expInfo["date"]}.csv`;
+      const proxyUrl = 'https://corsproxy.io/';
+      const targetUrl = 'https://pipe.jspsych.org/api/data/';
+      
+      // First try via proxy
+      fetch(proxyUrl + '?' + encodeURIComponent(targetUrl), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': '*/*' },
+        body: JSON.stringify({
+          experimentID: 'rVQ2JzmrYFqr',
+          filename: filename,
+          data: csvData
+        })
+      })
+      .then(response => {
+        if (response.ok) console.log('✅ Data uploaded via proxy');
+        else throw new Error(`Proxy failed: ${response.status}`);
+      })
+      .catch(() => {
+        // Fallback: direct fetch
+        return fetch(targetUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': '*/*' },
+          body: JSON.stringify({
+            experimentID: 'rVQ2JzmrYFqr',
+            filename: filename,
+            data: csvData
+          })
+        });
+      })
+      .then(response => {
+        if (response && !response.ok) throw new Error('Direct upload failed');
+        if (response && response.ok) console.log('✅ Data uploaded directly');
+      })
+      .catch(err => {
+        console.error('All upload attempts failed:', err);
+      });
+    } else {
+      console.warn('No data to save');
+    }
+    
+    // --- 4. Thank‑you routine setup ---
     t = 0;
     frameN = -1;
-    continueRoutine = true; // until we're told otherwise
-    // keep track of whether this Routine was forcibly ended
+    continueRoutine = true;
     routineForceEnded = false;
     thankClock.reset(routineTimer.getTime());
     routineTimer.add(10.000000);
     thankMaxDurationReached = false;
-    // update component parameters for each repeat
     psychoJS.experiment.addData('thank.started', globalClock.getTime());
-    thankMaxDuration = null
-    // keep track of which components have finished
+    thankMaxDuration = null;
     thankComponents = [];
-    thankComponents.push(instruction_3);
-    
-    for (const thisComponent of thankComponents)
-      if ('status' in thisComponent)
-        thisComponent.status = PsychoJS.Status.NOT_STARTED;
+    thankComponents.push(instruct_3);
+    for (const comp of thankComponents) {
+      if (comp && 'status' in comp) comp.status = PsychoJS.Status.NOT_STARTED;
+    }
     return Scheduler.Event.NEXT;
+  };  // <-- closes the async function
+}     // <-- closes the outer function
+
+// Helper function (already in your file, keep it)
+function escapeCSV(field) {
+  if (typeof field === 'string') {
+    if (field.includes(',') || field.includes('"') || field.includes('\n')) {
+      field = field.replace(/"/g, '""');
+      return `"${field}"`;
+    }
+    return field;
   }
+  return String(field);
 }
 
 
