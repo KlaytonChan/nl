@@ -1088,13 +1088,41 @@ function preRoutineEachFrame() {
     
     
     // *ok_button_4* updates
-    if (t >= 0 && ok_button_4.status === PsychoJS.Status.NOT_STARTED) {
-      // keep track of start time/frame for later
-      ok_button_4.tStart = t;  // (not accounting for frame time here)
-      ok_button_4.frameNStart = frameN;  // exact frame index
-      
-      ok_button_4.setAutoDraw(true);
+   // *ok_button_4* updates – only show after slider has been moved
+const sliderHasResponse = (numberline.getRating() !== null);
+
+if (sliderHasResponse && ok_button_4.status === PsychoJS.Status.NOT_STARTED) {
+    // First time slider gets a response: start drawing the button
+    ok_button_4.tStart = t;
+    ok_button_4.frameNStart = frameN;
+    ok_button_4.setAutoDraw(true);
+    ok_button_4.status = PsychoJS.Status.STARTED;
+} else if (!sliderHasResponse && ok_button_4.status === PsychoJS.Status.STARTED) {
+    // If slider response disappears (shouldn’t happen), hide button
+    ok_button_4.setAutoDraw(false);
+    ok_button_4.status = PsychoJS.Status.FINISHED;
+}
+
+// If button is active, handle clicks exactly as before
+if (ok_button_4.status === PsychoJS.Status.STARTED) {
+    if (ok_button_4.isClicked) {
+        if (!ok_button_4.wasClicked) {
+            ok_button_4.timesOn.push(ok_button_4.clock.getTime());
+            ok_button_4.timesOff.push(ok_button_4.clock.getTime());
+        } else {
+            ok_button_4.timesOff[ok_button_4.timesOff.length - 1] = ok_button_4.clock.getTime();
+        }
+        if (!ok_button_4.wasClicked) {
+            continueRoutine = false;   // end routine when OK clicked
+        }
+        ok_button_4.wasClicked = true;
+    } else {
+        ok_button_4.wasClicked = false;
     }
+} else {
+    ok_button_4.clock.reset();
+    ok_button_4.wasClicked = false;
+}
     
     
     // if ok_button_4 is active this frame...
@@ -1557,14 +1585,41 @@ function testRoutineEachFrame() {
     }
     
     
-    // *ok_button_5* updates
-    if (t >= 0 && ok_button_5.status === PsychoJS.Status.NOT_STARTED) {
-      // keep track of start time/frame for later
-      ok_button_5.tStart = t;  // (not accounting for frame time here)
-      ok_button_5.frameNStart = frameN;  // exact frame index
-      
-      ok_button_5.setAutoDraw(true);
+    // // *ok_button_5* updates – only show after slider has been moved
+const sliderHasResponse = (numberline_2.getRating() !== null);
+
+if (sliderHasResponse && ok_button_5.status === PsychoJS.Status.NOT_STARTED) {
+    // First time slider gets a response: start drawing the button
+    ok_button_5.tStart = t;
+    ok_button_5.frameNStart = frameN;
+    ok_button_5.setAutoDraw(true);
+    ok_button_5.status = PsychoJS.Status.STARTED;
+} else if (!sliderHasResponse && ok_button_5.status === PsychoJS.Status.STARTED) {
+    // If slider response disappears (shouldn’t happen), hide button
+    ok_button_5.setAutoDraw(false);
+    ok_button_5.status = PsychoJS.Status.FINISHED;
+}
+
+// If button is active, handle clicks exactly as before
+if (ok_button_5.status === PsychoJS.Status.STARTED) {
+    if (ok_button_5.isClicked) {
+        if (!ok_button_4.wasClicked) {
+            ok_button_5.timesOn.push(ok_button_5.clock.getTime());
+            ok_button_5.timesOff.push(ok_button_5.clock.getTime());
+        } else {
+            ok_button_5.timesOff[ok_button_5.timesOff.length - 1] = ok_button_5.clock.getTime();
+        }
+        if (!ok_button_5.wasClicked) {
+            continueRoutine = false;   // end routine when OK clicked
+        }
+        ok_button_5.wasClicked = true;
+    } else {
+        ok_button_5.wasClicked = false;
     }
+} else {
+    ok_button_5.clock.reset();
+    ok_button_5.wasClicked = false;
+}
     
     
     // if ok_button_5 is active this frame...
