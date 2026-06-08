@@ -1088,41 +1088,39 @@ function preRoutineEachFrame() {
     
     
     // *ok_button_4* updates
-   // *ok_button_4* updates – only show after slider has been moved
-const sliderHasResponse = (numberline.getRating() !== null);
+       // *ok_button_4* updates – only show after slider has been moved (markerPos becomes a number)
+    const sliderTouched = (typeof numberline.markerPos === 'number' && !isNaN(numberline.markerPos));
 
-if (sliderHasResponse && ok_button_4.status === PsychoJS.Status.NOT_STARTED) {
-    // First time slider gets a response: start drawing the button
-    ok_button_4.tStart = t;
-    ok_button_4.frameNStart = frameN;
-    ok_button_4.setAutoDraw(true);
-    ok_button_4.status = PsychoJS.Status.STARTED;
-} else if (!sliderHasResponse && ok_button_4.status === PsychoJS.Status.STARTED) {
-    // If slider response disappears (shouldn’t happen), hide button
-    ok_button_4.setAutoDraw(false);
-    ok_button_4.status = PsychoJS.Status.FINISHED;
-}
+    if (sliderTouched && ok_button_4.status === PsychoJS.Status.NOT_STARTED) {
+        ok_button_4.tStart = t;
+        ok_button_4.frameNStart = frameN;
+        ok_button_4.setAutoDraw(true);
+        ok_button_4.status = PsychoJS.Status.STARTED;
+    } else if (!sliderTouched && ok_button_4.status === PsychoJS.Status.STARTED) {
+        ok_button_4.setAutoDraw(false);
+        ok_button_4.status = PsychoJS.Status.FINISHED;
+    }
 
-// If button is active, handle clicks exactly as before
-if (ok_button_4.status === PsychoJS.Status.STARTED) {
-    if (ok_button_4.isClicked) {
-        if (!ok_button_4.wasClicked) {
-            ok_button_4.timesOn.push(ok_button_4.clock.getTime());
-            ok_button_4.timesOff.push(ok_button_4.clock.getTime());
+    // If button is active, handle clicks (same as before)
+    if (ok_button_4.status === PsychoJS.Status.STARTED) {
+        if (ok_button_4.isClicked) {
+            if (!ok_button_4.wasClicked) {
+                ok_button_4.timesOn.push(ok_button_4.clock.getTime());
+                ok_button_4.timesOff.push(ok_button_4.clock.getTime());
+            } else {
+                ok_button_4.timesOff[ok_button_4.timesOff.length - 1] = ok_button_4.clock.getTime();
+            }
+            if (!ok_button_4.wasClicked) {
+                continueRoutine = false;
+            }
+            ok_button_4.wasClicked = true;
         } else {
-            ok_button_4.timesOff[ok_button_4.timesOff.length - 1] = ok_button_4.clock.getTime();
+            ok_button_4.wasClicked = false;
         }
-        if (!ok_button_4.wasClicked) {
-            continueRoutine = false;   // end routine when OK clicked
-        }
-        ok_button_4.wasClicked = true;
     } else {
+        ok_button_4.clock.reset();
         ok_button_4.wasClicked = false;
     }
-} else {
-    ok_button_4.clock.reset();
-    ok_button_4.wasClicked = false;
-}
 
 
     // check for quit (typically the Esc key)
@@ -1552,42 +1550,40 @@ function testRoutineEachFrame() {
     }
     
     
-    // // *ok_button_5* updates – only show after slider has been moved
-const sliderHasResponse = (numberline_2.getRating() !== null);
+     // *ok_button_5* updates – only show after slider has been moved
+    const sliderTouched = (typeof numberline_2.markerPos === 'number' && !isNaN(numberline_2.markerPos));
 
-if (sliderHasResponse && ok_button_5.status === PsychoJS.Status.NOT_STARTED) {
-    // First time slider gets a response: start drawing the button
-    ok_button_5.tStart = t;
-    ok_button_5.frameNStart = frameN;
-    ok_button_5.setAutoDraw(true);
-    ok_button_5.status = PsychoJS.Status.STARTED;
-} else if (!sliderHasResponse && ok_button_5.status === PsychoJS.Status.STARTED) {
-    // If slider response disappears (shouldn’t happen), hide button
-    ok_button_5.setAutoDraw(false);
-    ok_button_5.status = PsychoJS.Status.FINISHED;
-}
+    if (sliderTouched && ok_button_5.status === PsychoJS.Status.NOT_STARTED) {
+        ok_button_5.tStart = t;
+        ok_button_5.frameNStart = frameN;
+        ok_button_5.setAutoDraw(true);
+        ok_button_5.status = PsychoJS.Status.STARTED;
+    } else if (!sliderTouched && ok_button_5.status === PsychoJS.Status.STARTED) {
+        ok_button_5.setAutoDraw(false);
+        ok_button_5.status = PsychoJS.Status.FINISHED;
+    }
 
-// If button is active, handle clicks exactly as before
-if (ok_button_5.status === PsychoJS.Status.STARTED) {
-    if (ok_button_5.isClicked) {
-        if (!ok_button_4.wasClicked) {
-            ok_button_5.timesOn.push(ok_button_5.clock.getTime());
-            ok_button_5.timesOff.push(ok_button_5.clock.getTime());
+    // Click handling (same as above, but with ok_button_5)
+    if (ok_button_5.status === PsychoJS.Status.STARTED) {
+        if (ok_button_5.isClicked) {
+            if (!ok_button_5.wasClicked) {
+                ok_button_5.timesOn.push(ok_button_5.clock.getTime());
+                ok_button_5.timesOff.push(ok_button_5.clock.getTime());
+            } else {
+                ok_button_5.timesOff[ok_button_5.timesOff.length - 1] = ok_button_5.clock.getTime();
+            }
+            if (!ok_button_5.wasClicked) {
+                continueRoutine = false;
+            }
+            ok_button_5.wasClicked = true;
         } else {
-            ok_button_5.timesOff[ok_button_5.timesOff.length - 1] = ok_button_5.clock.getTime();
+            ok_button_5.wasClicked = false;
         }
-        if (!ok_button_5.wasClicked) {
-            continueRoutine = false;   // end routine when OK clicked
-        }
-        ok_button_5.wasClicked = true;
     } else {
+        ok_button_5.clock.reset();
         ok_button_5.wasClicked = false;
     }
-} else {
-    ok_button_5.clock.reset();
-    ok_button_5.wasClicked = false;
-}
-    
+      
     // check for quit (typically the Esc key)
     if (psychoJS.experiment.experimentEnded || psychoJS.eventManager.getKeys({keyList:['escape']}).length > 0) {
       return quitPsychoJS('The [Escape] key was pressed. Goodbye!', false);
