@@ -1123,41 +1123,8 @@ if (ok_button_4.status === PsychoJS.Status.STARTED) {
     ok_button_4.clock.reset();
     ok_button_4.wasClicked = false;
 }
-    
-    
-    // if ok_button_4 is active this frame...
-    if (ok_button_4.status === PsychoJS.Status.STARTED) {
-    }
-    
-    if (ok_button_4.status === PsychoJS.Status.STARTED) {
-      // check whether ok_button_4 has been pressed
-      if (ok_button_4.isClicked) {
-        if (!ok_button_4.wasClicked) {
-          // store time of first click
-          ok_button_4.timesOn.push(ok_button_4.clock.getTime());
-          // store time clicked until
-          ok_button_4.timesOff.push(ok_button_4.clock.getTime());
-        } else {
-          // update time clicked until;
-          ok_button_4.timesOff[ok_button_4.timesOff.length - 1] = ok_button_4.clock.getTime();
-        }
-        if (!ok_button_4.wasClicked) {
-          // end routine when ok_button_4 is clicked
-          continueRoutine = false;
-          
-        }
-        // if ok_button_4 is still clicked next frame, it is not a new click
-        ok_button_4.wasClicked = true;
-      } else {
-        // if ok_button_4 is clicked next frame, it is a new click
-        ok_button_4.wasClicked = false;
-      }
-    } else {
-      // keep clock at 0 if ok_button_4 hasn't started / has finished
-      ok_button_4.clock.reset();
-      // if ok_button_4 is clicked next frame, it is a new click
-      ok_button_4.wasClicked = false;
-    }
+
+
     // check for quit (typically the Esc key)
     if (psychoJS.experiment.experimentEnded || psychoJS.eventManager.getKeys({keyList:['escape']}).length > 0) {
       return quitPsychoJS('The [Escape] key was pressed. Goodbye!', false);
@@ -1621,40 +1588,6 @@ if (ok_button_5.status === PsychoJS.Status.STARTED) {
     ok_button_5.wasClicked = false;
 }
     
-    
-    // if ok_button_5 is active this frame...
-    if (ok_button_5.status === PsychoJS.Status.STARTED) {
-    }
-    
-    if (ok_button_5.status === PsychoJS.Status.STARTED) {
-      // check whether ok_button_5 has been pressed
-      if (ok_button_5.isClicked) {
-        if (!ok_button_5.wasClicked) {
-          // store time of first click
-          ok_button_5.timesOn.push(ok_button_5.clock.getTime());
-          // store time clicked until
-          ok_button_5.timesOff.push(ok_button_5.clock.getTime());
-        } else {
-          // update time clicked until;
-          ok_button_5.timesOff[ok_button_5.timesOff.length - 1] = ok_button_5.clock.getTime();
-        }
-        if (!ok_button_5.wasClicked) {
-          // end routine when ok_button_5 is clicked
-          continueRoutine = false;
-          
-        }
-        // if ok_button_5 is still clicked next frame, it is not a new click
-        ok_button_5.wasClicked = true;
-      } else {
-        // if ok_button_5 is clicked next frame, it is a new click
-        ok_button_5.wasClicked = false;
-      }
-    } else {
-      // keep clock at 0 if ok_button_5 hasn't started / has finished
-      ok_button_5.clock.reset();
-      // if ok_button_5 is clicked next frame, it is a new click
-      ok_button_5.wasClicked = false;
-    }
     // check for quit (typically the Esc key)
     if (psychoJS.experiment.experimentEnded || psychoJS.eventManager.getKeys({keyList:['escape']}).length > 0) {
       return quitPsychoJS('The [Escape] key was pressed. Goodbye!', false);
